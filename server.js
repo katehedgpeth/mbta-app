@@ -36,7 +36,6 @@ app.route(`${apiBaseUrl}/trains`)
           };
           for (var i=0; i<lines.length; i++) {
             var line = lines[i].split('\,')
-            console.log(line)
             line = line.map(header => header.replace(/\"/g, '').replace(/\r/g, '').toLowerCase());
 
             if (i === 0) {
@@ -47,8 +46,24 @@ app.route(`${apiBaseUrl}/trains`)
                 obj[json.headers[idx]] = val;
               })
               var time = new Date(parseInt(obj.scheduledtime) * 1000);
-              var scheduled = datetime.create(time).format('I:M');
-              obj.scheduledtime = scheduled;
+              var minutes = time.getMinutes();
+              if (minutes < 10) minutes = `0${minutes}`;
+              var hours = time.getHours();
+              var ampm;
+              if (hours > 12) {
+                hours = hours - 12;
+                ampm = 'PM';
+              } else if (hours == 12) {
+                ampm = 'PM'
+              } else {
+                ampm = 'AM'
+              }
+              obj.scheduledtime = `${hours}:${minutes} ${ampm}`;
+              if (obj.lateness == 0) {
+                obj.lateness = '';
+              } else {
+                obj.lateness = `${Math.round(obj.lateness / 60)} min`
+              }
               if (obj.origin == 'north station') {
                 json.northStation.push(obj);
               } else {

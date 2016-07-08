@@ -7,15 +7,20 @@ import {COMMON_DIRECTIVES} from '@angular/common';
     <div class="south-station board">
       <h2>South Station</h2>
       <div class="headers">
-        <div class="header" *ngFor="let header of headers">{{header}}</div>
+        <div class="trip">Trip</div>
+        <div class="destination">Destination</div>
+        <div class="scheduledtime">Scheduled</div>
+        <div class="lateness">Late</div>
+        <div class="track">Track</div>
+        <div class="status">Status</div>
       </div>
       <div *ngFor="let train of trains" class="train">
-        <div>{{train.trip}}</div>
-        <div>{{train.destination}}</div>
-        <div>{{train.scheduledtime}}</div>
-        <div>{{train.lateness}}</div>
-        <div>{{train.track}}</div>
-        <div>{{train.status}}</div>
+        <div class="trip">{{train.trip}}</div>
+        <div class="destination">{{train.destination}}</div>
+        <div class="scheduledtime">{{train.scheduledtime}}</div>
+        <div class="lateness">{{train.lateness}}</div>
+        <div class="track">{{train.track}}</div>
+        <div class="status">{{train.status}}</div>
       </div>
     </div>
   `,
@@ -24,7 +29,6 @@ import {COMMON_DIRECTIVES} from '@angular/common';
 
 export class SouthStationBoardComponent implements OnInit{
   @Input() trains: string[];
-  @Input() headers: string[];
 
   ngOnInit() {
     console.log(this.trains)
